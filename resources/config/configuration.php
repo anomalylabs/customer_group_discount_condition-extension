@@ -8,8 +8,8 @@ return [
         'type'     => 'anomaly.field_type.select',
         'config'   => [
             'options' => [
-                'is_in'     => 'anomaly.extension.customer_group_discount_filter::configuration.operator.options.is_in',
-                'is_not_in' => 'anomaly.extension.customer_group_discount_filter::configuration.operator.options.is_not_in',
+                'is_in'     => 'anomaly.extension.customer_group_discount_condition::configuration.operator.options.is_in',
+                'is_not_in' => 'anomaly.extension.customer_group_discount_condition::configuration.operator.options.is_not_in',
             ],
         ],
     ],

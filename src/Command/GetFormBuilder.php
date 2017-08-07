@@ -1,11 +1,11 @@
-<?php namespace Anomaly\CustomerGroupDiscountFilterExtension\Command;
+<?php namespace Anomaly\CustomerGroupDiscountConditionExtension\Command;
 
 use Anomaly\ConfigurationModule\Configuration\Form\ConfigurationFormBuilder;
 use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
-use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
-use Anomaly\DiscountsModule\Filter\Extension\FilterExtension;
-use Anomaly\DiscountsModule\Filter\Extension\Form\FilterExtensionFormBuilder;
-use Anomaly\DiscountsModule\Filter\Form\FilterFormBuilder;
+use Anomaly\DiscountsModule\Condition\Contract\ConditionInterface;
+use Anomaly\DiscountsModule\Condition\Extension\ConditionExtension;
+use Anomaly\DiscountsModule\Condition\Extension\Form\ConditionExtensionFormBuilder;
+use Anomaly\DiscountsModule\Condition\Form\ConditionFormBuilder;
 
 
 /**
@@ -14,7 +14,7 @@ use Anomaly\DiscountsModule\Filter\Form\FilterFormBuilder;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\CustomerGroupDiscountFilterExtension\Command
+ * @package       Anomaly\CustomerGroupDiscountConditionExtension\Command
  */
 class GetFormBuilder
 {
@@ -27,71 +27,71 @@ class GetFormBuilder
     protected $discount;
 
     /**
-     * The filter interface.
+     * The condition interface.
      *
-     * @var FilterInterface
+     * @var ConditionInterface
      */
-    protected $filter;
+    protected $condition;
 
     /**
-     * The filter extension.
+     * The condition extension.
      *
-     * @var FilterExtension
+     * @var ConditionExtension
      */
     protected $extension;
 
     /**
      * Create a new GetFormBuilder instance.
      *
-     * @param FilterExtension   $extension
+     * @param ConditionExtension   $extension
      * @param DiscountInterface $discount
-     * @param FilterInterface   $filter
+     * @param ConditionInterface   $condition
      */
     public function __construct(
-        FilterExtension $extension,
+        ConditionExtension $extension,
         DiscountInterface $discount,
-        FilterInterface $filter = null
+        ConditionInterface $condition = null
     ) {
         $this->discount  = $discount;
-        $this->filter    = $filter;
+        $this->condition    = $condition;
         $this->extension = $extension;
     }
 
     /**
      * Handle the command.
      *
-     * @param FilterExtensionFormBuilder $builder
-     * @param FilterFormBuilder          $filter
+     * @param ConditionExtensionFormBuilder $builder
+     * @param ConditionFormBuilder          $condition
      * @param ConfigurationFormBuilder   $configuration
-     * @return FilterExtensionFormBuilder
+     * @return ConditionExtensionFormBuilder
      */
     public function handle(
-        FilterExtensionFormBuilder $builder,
-        FilterFormBuilder $filter,
+        ConditionExtensionFormBuilder $builder,
+        ConditionFormBuilder $condition,
         ConfigurationFormBuilder $configuration
     ) {
         $builder->addForm(
-            'filter',
-            $filter
+            'condition',
+            $condition
                 ->setDiscount($this->discount)
                 ->setExtension($this->extension)
-                ->setEntry($this->filter ? $this->filter->getId() : null)
+                ->setEntry($this->condition ? $this->condition->getId() : null)
         );
 
         $builder->addForm(
             'configuration',
             $configuration
-                ->setEntry('anomaly.extension.customer_group_discount_filter')
+                ->setEntry('anomaly.extension.customer_group_discount_condition')
         );
 
-        if ($this->filter) {
-            $configuration->setScope($this->filter->getId());
+        if ($this->condition) {
+            $configuration->setScope($this->condition->getId());
         } else {
             $builder->on(
-                'saved_filter',
-                function () use ($filter, $configuration) {
+                'saved_condition',
+                function () use ($condition, $configuration) {
                     $configuration->setScope(
-                        'discount_' . $this->discount->getId() . '_' . $filter->getFormEntryId()
+                        'discount_' . $this->discount->getId() . '_' . $condition->getFormEntryId()
                     );
                 }
             );

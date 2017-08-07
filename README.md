@@ -1,1 +1,1 @@
-# customer_group_discount_filter-extension
+# customer_group_discount_condition-extension

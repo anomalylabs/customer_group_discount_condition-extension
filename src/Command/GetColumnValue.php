@@ -1,9 +1,9 @@
-<?php namespace Anomaly\CustomerGroupDiscountFilterExtension\Command;
+<?php namespace Anomaly\CustomerGroupDiscountConditionExtension\Command;
 
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
 use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
-use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
-use Anomaly\DiscountsModule\Filter\Extension\FilterExtension;
+use Anomaly\DiscountsModule\Condition\Contract\ConditionInterface;
+use Anomaly\DiscountsModule\Condition\Extension\ConditionExtension;
 use Anomaly\CustomersModule\Group\Contract\GroupInterface;
 use Anomaly\CustomersModule\Group\Contract\GroupRepositoryInterface;
 use Illuminate\Translation\Translator;
@@ -14,7 +14,7 @@ use Illuminate\Translation\Translator;
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\CustomerGroupDiscountFilterExtension\Command
+ * @package       Anomaly\CustomerGroupDiscountConditionExtension\Command
  */
 class GetColumnValue
 {
@@ -27,33 +27,33 @@ class GetColumnValue
     protected $discount;
 
     /**
-     * The filter interface.
+     * The condition interface.
      *
-     * @var FilterInterface
+     * @var ConditionInterface
      */
-    protected $filter;
+    protected $condition;
 
     /**
-     * The filter extension.
+     * The condition extension.
      *
-     * @var FilterExtension
+     * @var ConditionExtension
      */
     protected $extension;
 
     /**
      * Create a new GetColumnValue instance.
      *
-     * @param FilterExtension   $extension
+     * @param ConditionExtension   $extension
      * @param DiscountInterface $discount
-     * @param FilterInterface   $filter
+     * @param ConditionInterface   $condition
      */
     public function __construct(
-        FilterExtension $extension,
+        ConditionExtension $extension,
         DiscountInterface $discount,
-        FilterInterface $filter = null
+        ConditionInterface $condition = null
     ) {
         $this->discount  = $discount;
-        $this->filter    = $filter;
+        $this->condition    = $condition;
         $this->extension = $extension;
     }
 
@@ -68,20 +68,20 @@ class GetColumnValue
         ConfigurationRepositoryInterface $configuration
     ) {
         $operator = $configuration->presenter(
-            'anomaly.extension.customer_group_discount_filter::operator',
-            $this->filter->getId()
+            'anomaly.extension.customer_group_discount_condition::operator',
+            $this->condition->getId()
         )->value;
 
         /* @var GroupInterface $value */
         if ($value = $categories->find(
-            $configuration->value('anomaly.extension.customer_group_discount_filter::value', $this->filter->getId())
+            $configuration->value('anomaly.extension.customer_group_discount_condition::value', $this->condition->getId())
         )
         ) {
             $value = $value->getName();
         }
 
         return $translator->trans(
-            'anomaly.extension.customer_group_discount_filter::message.filter',
+            'anomaly.extension.customer_group_discount_condition::message.condition',
             compact('operator', 'value')
         );
     }

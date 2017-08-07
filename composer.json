@@ -1,10 +1,10 @@
 {
-    "name": "anomaly/customer_group_discount_filter-extension",
+    "name": "anomaly/customer_group_discount_condition-extension",
     "type": "streams-addon",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Anomaly\\CustomerGroupDiscountFilterExtension\\": "src/"
+            "Anomaly\\CustomerGroupDiscountConditionExtension\\": "src/"
         }
     }
 }

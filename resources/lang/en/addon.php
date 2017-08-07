@@ -2,6 +2,6 @@
 
 return [
     'title'       => 'Customer Group',
-    'name'        => 'Customer Group Discount Filter Extension',
-    'description' => 'A discount filter based on the customer\'s group.',
+    'name'        => 'Customer Group Discount Condition Extension',
+    'description' => 'A discount condition based on the customer\'s group.',
 ];

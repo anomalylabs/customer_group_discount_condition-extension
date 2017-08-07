@@ -1,26 +1,26 @@
-<?php namespace Anomaly\CustomerGroupDiscountFilterExtension\Command;
+<?php namespace Anomaly\CustomerGroupDiscountConditionExtension\Command;
 
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
-use Anomaly\CustomerGroupDiscountFilterExtension\CustomerGroupDiscountFilterExtension;
+use Anomaly\CustomerGroupDiscountConditionExtension\CustomerGroupDiscountConditionExtension;
 use Anomaly\CustomersModule\Group\Contract\GroupInterface;
 use Anomaly\CustomersModule\Group\Contract\GroupRepositoryInterface;
 use Anomaly\CustomersModule\Product\Contract\ProductInterface;
 
 /**
- * Class ValidateDiscountFilter
+ * Class ValidateDiscountCondition
  *
  * @link          http://pyrocms.com/
  * @author        PyroCMS, Inc. <support@pyrocms.com>
  * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\CustomerGroupDiscountFilterExtension\Command
+ * @package       Anomaly\CustomerGroupDiscountConditionExtension\Command
  */
-class ValidateDiscountFilter
+class ValidateDiscountCondition
 {
 
     /**
      * The extension instance.
      *
-     * @var CustomerGroupDiscountFilterExtension
+     * @var CustomerGroupDiscountConditionExtension
      */
     private $extension;
 
@@ -32,12 +32,12 @@ class ValidateDiscountFilter
     private $target;
 
     /**
-     * Create a new ValidateDiscountFilter instance.
+     * Create a new ValidateDiscountCondition instance.
      *
-     * @param CustomerGroupDiscountFilterExtension $extension
+     * @param CustomerGroupDiscountConditionExtension $extension
      * @param                                      $target
      */
-    public function __construct(CustomerGroupDiscountFilterExtension $extension, $target)
+    public function __construct(CustomerGroupDiscountConditionExtension $extension, $target)
     {
 
         $this->target    = $target;
@@ -55,7 +55,7 @@ class ValidateDiscountFilter
     {
         /* @var GroupInterface $value */
         if (!$value = $categories->find(
-            $configuration->value('anomaly.extension.customer_group_discount_filter::value', $this->filter->getId())
+            $configuration->value('anomaly.extension.customer_group_discount_condition::value', $this->condition->getId())
         )
         ) {
             return false;
