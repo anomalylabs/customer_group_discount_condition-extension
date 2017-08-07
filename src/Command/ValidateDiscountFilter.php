@@ -1,8 +1,7 @@
 <?php namespace Anomaly\CustomerGroupDiscountFilterExtension\Command;
 
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
-use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
-use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
+use Anomaly\CustomerGroupDiscountFilterExtension\CustomerGroupDiscountFilterExtension;
 use Anomaly\CustomersModule\Group\Contract\GroupInterface;
 use Anomaly\CustomersModule\Group\Contract\GroupRepositoryInterface;
 use Anomaly\CustomersModule\Product\Contract\ProductInterface;
@@ -19,44 +18,36 @@ class ValidateDiscountFilter
 {
 
     /**
-     * The filter interface.
+     * The extension instance.
      *
-     * @var FilterInterface
+     * @var CustomerGroupDiscountFilterExtension
      */
-    protected $filter;
+    private $extension;
 
     /**
-     * The product instance.
+     * The target object.
      *
-     * @var ProductInterface
+     * @var mixed
      */
-    protected $product;
-
-    /**
-     * The discount interface.
-     *
-     * @var DiscountInterface
-     */
-    protected $discount;
+    private $target;
 
     /**
      * Create a new ValidateDiscountFilter instance.
      *
-     * @param ProductInterface  $product
-     * @param FilterInterface   $filter
-     * @param DiscountInterface $discount
+     * @param CustomerGroupDiscountFilterExtension $extension
+     * @param                                      $target
      */
-    public function __construct(ProductInterface $product, FilterInterface $filter, DiscountInterface $discount)
+    public function __construct(CustomerGroupDiscountFilterExtension $extension, $target)
     {
-        $this->filter   = $filter;
-        $this->product  = $product;
-        $this->discount = $discount;
+
+        $this->target    = $target;
+        $this->extension = $extension;
     }
 
     /**
      * Handle the command.
      *
-     * @param GroupRepositoryInterface      $categories
+     * @param GroupRepositoryInterface         $categories
      * @param ConfigurationRepositoryInterface $configuration
      * @return string
      */

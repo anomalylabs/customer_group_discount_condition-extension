@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title'       => 'Category',
-    'name'        => 'Category Discount Filter Extension',
-    'description' => 'A discount filter based on the product\'s categories.',
+    'title'       => 'Customer Group',
+    'name'        => 'Customer Group Discount Filter Extension',
+    'description' => 'A discount filter based on the customer\'s group.',
 ];

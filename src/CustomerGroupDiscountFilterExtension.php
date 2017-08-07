@@ -7,7 +7,6 @@ use Anomaly\DiscountsModule\Discount\Contract\DiscountInterface;
 use Anomaly\DiscountsModule\Filter\Contract\FilterInterface;
 use Anomaly\DiscountsModule\Filter\Extension\FilterExtension;
 use Anomaly\DiscountsModule\Filter\Extension\Form\FilterExtensionFormBuilder;
-use Anomaly\CustomersModule\Product\Contract\ProductInterface;
 
 /**
  * Class CustomerGroupDiscountFilterExtension
@@ -53,15 +52,13 @@ class CustomerGroupDiscountFilterExtension extends FilterExtension
     }
 
     /**
-     * Return if a product passes the filter or not.
+     * Return if the filter matches or not.
      *
-     * @param DiscountInterface $discount
-     * @param FilterInterface   $filter
-     * @param ProductInterface  $product
-     * @return bool
+     * @param $target
+     * @return string
      */
-    public function passes(DiscountInterface $discount, FilterInterface $filter, ProductInterface $product)
+    public function matches($target)
     {
-        return $this->dispatch(new ValidateDiscountFilter($discount, $filter, $product));
+        return $this->dispatch(new ValidateDiscountFilter($this, $target));
     }
 }
