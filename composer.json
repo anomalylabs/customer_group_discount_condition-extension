@@ -2,6 +2,9 @@
     "name": "anomaly/customer_group_discount_condition-extension",
     "type": "streams-addon",
     "license": "MIT",
+    "require": {
+        "anomaly/customers-module": "^1.0"
+    },
     "autoload": {
         "psr-4": {
             "Anomaly\\CustomerGroupDiscountConditionExtension\\": "src/"

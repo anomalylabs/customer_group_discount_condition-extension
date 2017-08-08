@@ -2,9 +2,11 @@
 
 use Anomaly\ConfigurationModule\Configuration\Contract\ConfigurationRepositoryInterface;
 use Anomaly\CustomerGroupDiscountConditionExtension\CustomerGroupDiscountConditionExtension;
+use Anomaly\CustomersModule\Customer\Contract\CustomerInterface;
 use Anomaly\CustomersModule\Group\Contract\GroupInterface;
 use Anomaly\CustomersModule\Group\Contract\GroupRepositoryInterface;
-use Anomaly\CustomersModule\Product\Contract\ProductInterface;
+use Anomaly\UsersModule\User\Contract\UserInterface;
+use Illuminate\Contracts\Auth\Guard;
 
 /**
  * Class ValidateDiscountCondition
@@ -39,30 +41,54 @@ class ValidateDiscountCondition
      */
     public function __construct(CustomerGroupDiscountConditionExtension $extension, $target)
     {
-
-        $this->target    = $target;
         $this->extension = $extension;
+        $this->target    = $target;
     }
 
     /**
      * Handle the command.
      *
-     * @param GroupRepositoryInterface         $categories
      * @param ConfigurationRepositoryInterface $configuration
+     * @param GroupRepositoryInterface $categories
      * @return string
      */
-    public function handle(GroupRepositoryInterface $categories, ConfigurationRepositoryInterface $configuration)
-    {
+    public function handle(
+        ConfigurationRepositoryInterface $configuration,
+        GroupRepositoryInterface $categories,
+        Guard $auth
+    ) {
+
+        /**
+         * If we don't have a user
+         * we can't have a customer.
+         *
+         * @var UserInterface $user
+         */
+        if (!$user = $auth->user()) {
+            return false;
+        }
+
+        /**
+         * The customer is what we
+         * are after after all..
+         *
+         * @var CustomerInterface $customer
+         */
+        if (!$customer = $user->call('get_customer')) {
+            return false;
+        }
+
         /* @var GroupInterface $value */
         if (!$value = $categories->find(
-            $configuration->value('anomaly.extension.customer_group_discount_condition::value', $this->condition->getId())
+            $configuration->value(
+                'anomaly.extension.customer_group_discount_condition::value',
+                $this->extension->getCondition()->getId()
+            )
         )
         ) {
             return false;
         }
 
-        $categories = $this->product->getCategories();
-
-        return $categories->has($value->getId());
+        return $customer->hasGroup($value);
     }
 }

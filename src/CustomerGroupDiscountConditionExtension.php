@@ -11,10 +11,9 @@ use Anomaly\DiscountsModule\Condition\Extension\Form\ConditionExtensionFormBuild
 /**
  * Class CustomerGroupDiscountConditionExtension
  *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\CustomerGroupDiscountConditionExtension
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
  */
 class CustomerGroupDiscountConditionExtension extends ConditionExtension
 {
